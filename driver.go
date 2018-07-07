@@ -106,6 +106,10 @@ func (d MySQLDriver) Open(dsn string) (driver.Conn, error) {
 		return nil, err
 	}
 
+	if plugin == "" {
+		mc.cfg.AllowNativePasswords = true
+		plugin = "mysql_native_password"
+	}
 	// Send Client Authentication Packet
 	authResp, addNUL, err := mc.auth(authData, plugin)
 	if err != nil {
